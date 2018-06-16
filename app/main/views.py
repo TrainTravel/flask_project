@@ -21,6 +21,7 @@ lottery_dir = base_dir + '/lottery_files/'
 def index():
     form = NameForm()
     if form.validate_on_submit():
+        print(db)
         user = User.query.filter_by(username=form.name.data).first()
         if user is None:
             user = User(username=form.name.data)
@@ -33,7 +34,7 @@ def index():
             session['known'] = True
         session['name'] = form.name.data
         return redirect(url_for('.index'))
-    return render_template('index.html', current_user='Train', form=form, name=session.get('name'), \
+    return render_template('index.html', form=form, name=session.get('name'), \
                            known=session.get('known', False))
 
 @main.route('/lottery')
